@@ -24,21 +24,24 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ vars.AWS_REGION }}
-
-    - name: List bucket
-      run: aws s3 ls
-    - name: echo variable
-      run: echo ${{ vars.VAR_TEST }}
+    - name: npm install
+      run: npm i
+    - name: npm run build
+      run: npm run build
+    - name: Upload dist to s3 bucket
+      run: aws s3 sync dist/ s3://${{ vars.S3_BUCKET_NAME }}/ --delete
+    # - name: echo variable
+    #   run: echo ${{ vars.VAR_TEST }}
  
-    - name: setup python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10' # install the python version needed
-    - name: install python packages
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r .github/workflows/requirements.txt
-    - name: run build python script
-      run: |
-        python .github/workflows/deploy-se-server.py 
+    # - name: setup python
+    #   uses: actions/setup-python@v4
+    #   with:
+    #     python-version: '3.10' # install the python version needed
+    # - name: install python packages
+    #   run: |
+    #     python -m pip install --upgrade pip
+    #     pip install -r .github/workflows/requirements.txt
+    # - name: run build python script
+    #   run: |
+    #     python .github/workflows/deploy-se-server.py 
  
