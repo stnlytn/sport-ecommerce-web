@@ -30,3 +30,5 @@ jobs:
       run: npm run build
     - name: Upload dist to s3 bucket
       run: aws s3 sync dist/ s3://${{ vars.S3_BUCKET_NAME }}/ --cache-control max-age=${{ vars.MAX_AGE }} --delete
+    - name: Cloudfront invalidation
+      run: aws cloudfront create-invalidation --distribution-id ${{ vars.DISTRIBUTION_ID }} --path "/*"
