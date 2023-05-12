@@ -1,19 +1,15 @@
 name: pipeline
 on:
-  push:
-    branches:
-      - develop
-      - master
   pull_request:
-    types: [opened, reopened]
+    types: [closed]
     branches:
-      - develop
+      - master
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     environment:
-      name: DEV
+      name: PROD
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
